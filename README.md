@@ -1,20 +1,20 @@
-# BushFire
+# ProjectName Goes Here
 
-This project contains shared documentation, results, and code for the Bush Fire Project at ASU.
+This project contains shared documentation, results, and code for the blah blah blah ... details aboout your project in the Drylands Ecosystem Research Team at Arizona State University.
 
-Data should be stored in the associated Dropbox folder.
+All data for this project are stored: _details on data storage goes here. Note that all data should be stored in ASU DERT Dropbox (work with Heather if there is some need for an exception to this location_
 
-Code is structured so that it will run from within this repo and save figures (or other output) with the repo or Dropbox.
+All code in this repo should be structured so that it will run from within this repo, reading data from the DERT Dropbox and writing summary data files, figures, analysis results, and other output in Dropbox.
+
+Note that each user will need a copy of the file "config.yml" in their local copy of this repo. The config.yml file will direct R to the correct Dropbox path to read and save files in Dropbox. For more information on this, please see the file "DERT Data and Code Storage" in our Dropbox (DERT/Field and Lab SOPs/Data SOPs).
 
 The project is structured with the following folders:
 
     doc: contains text files and other documentation for the project
-    results: contains output from analyses such as figures.
-    src: source code (.R or .qmd) for analyses in R
+    code: source code (.R or .qmd) for analyses in R
+
+Note that additional subfolders can be added for code and doc if needed, but these should be carefully added in a hierarchical structure. A single R project should reside in the root directory of the repo. 
 
 Contact Information
-
-Arely Castillo: acast104@asu.edu
+_all users should add their information here_
 Heather Throop: heather.throop@asu.edu 
-Maria Jose Sanin: msanin2@asu.edu
-Laura Steger: lsteger@asu.edu
