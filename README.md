@@ -10,11 +10,11 @@ Note that each user will need a copy of the file "config.yml" in their local cop
 
 The project is structured with the following folders:
 
-    doc: contains text files and other documentation for the project
+    doc: contains text files and other documentation for the project. This folder should either contain all needed metadata, or an indication of where data         are stored (which should be Dropbox if not GitHub)
     code: source code (.R or .qmd) for analyses in R
 
 Note that additional subfolders can be added for code and doc if needed, but these should be carefully added in a hierarchical structure. A single R project should reside in the root directory of the repo. 
 
-Contact Information
-_all users should add their information here_
+Contact Information/
+_all users should add their information here_/
 Heather Throop: heather.throop@asu.edu 
