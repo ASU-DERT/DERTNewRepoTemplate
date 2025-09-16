@@ -1,0 +1,38 @@
+---
+title: "You should add a descriptive title here"
+author: "Your Name Here"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## Overview
+
+This script uses data ... description of the project, data source, etc ... to ... description of what it does ...
+
+File Created:\
+yyyy-mm-dd your name here
+
+Revisions:\
+yyyy-mm-dd your name and description of major revisions here ... add lines as needed
+
+## Preparation Steps
+
+```{r}
+#| label: load-packages
+
+library(tidyverse)
+# add other packages here (note that any "install.packages" calls should not be made in the console and not on the script as we don't want to install something on someone else's computer.)
+
+```
+
+```{r}
+#| label: set-Dropbox-environment
+
+```
+
+```{r}
+#| label: read-in-data
+
+```
