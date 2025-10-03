@@ -6,7 +6,7 @@ All data for this project are stored: _details on data storage goes here. Note t
 
 All code in this repo should be structured so that it will run from within this repo, reading data from the DERT Dropbox and writing summary data files, figures, analysis results, and other output in Dropbox.
 
-Note that each user will need a copy of the file "config.yml" in their local copy of this repo. The config.yml file will direct R to the correct Dropbox path to read and save files in Dropbox. For more information on this, please see the file "DERT Data and Code Storage" in our Dropbox (DERT/Field and Lab SOPs/Data SOPs).
+Note that each user will need a copy of the file "config.yml" in their local copy of this repo. The config.yml file will direct R to the correct Dropbox path to read and save files in Dropbox. The ".gitignore" file must have "config.yml" in it (see gitignore in this repo as an example). For more information on this, please see the file "DERT Data and Code Storage" in our Dropbox (DERT/Field and Lab SOPs/Data SOPs).
 
 The project is structured with the following folders:
 
