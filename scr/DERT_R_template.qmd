@@ -9,6 +9,8 @@ editor_options:
 
 ## Overview
 
+\*\*\*\*\* FOR YOUR INFO - THIS TEXT CAN BE DELETED WHEN YOU START YOUR OWN SCRIPT \*\*\*\*\* This script is intended as a template to give a starting point for well-structured R scripts for DERT projects. The actual content will vary widely depending on the project, but code should we well organized (use headers and labels to break up sections, allow code chunks to be run easily, and enable easy navigation) and well documented (use comments to explain what you are doing and why). Note that the headings will show up in the navigation pane to the right (if you have "Outline" enabled), allowing you to easily jump to different sections of the script. The labels on the code chunks also allow you to easily find specific code chunks using the "Find in Document" feature (Ctrl+F or Cmd+F) or the "Overview" dropbox in the bottom left of the script window. The script uses a config file to define the path to the DERT Data & Metadata Dropbox folder on your computer. This allows you to read in and write out data and figures without hardcoding paths that will not work on other people's computers. \*\*\*\*\*
+
 This script uses data ... description of the project, data source, etc ... to ... description of what it does ...
 
 File Created:\
@@ -23,7 +25,7 @@ yyyy-mm-dd your name and description of major revisions here ... add lines as ne
 #| label: load-packages
 
 library(tidyverse)
-# add other packages here (note that any "install.packages" calls should not be made in the console and not on the script as we don't want to install something on someone else's computer.)
+# add other packages here (note that any "install.packages" calls should be made in the console and not on the script as it isn't nice to inadvertently install something on someone else's computer.)
 
 ```
 
@@ -35,4 +37,183 @@ library(tidyverse)
 ```{r}
 #| label: read-in-data
 
+# This call uses the stored config file to define the path on your computer for the DERT Data & Metadata Dropbox folder
+DERT_Archives <- config::get()
+
+# Read in the Amari soil and water content data (this uses an example from the DERT Dropbox - replace with your file)
+# Be sure to describe what data you are pulling in. L1 data?
+swc <- read_csv(file.path(DERT_Archives, "Amari Compost Incubations", 
+              "FinalData", "SWC_With_Compost_HT.csv"),
+                show_col_types = FALSE)
+```
+
+### Data Cleaning and Work Up
+
+```{r}
+#| label: data-cleaning
+
+# likely there is a lot of data cleaning that you'll do, so you will likely have multiple code chunks of data cleaning. Add clear documentation for decisions (e.g., it is fine to discard data that you have a clear rationale that are suspect. Here is a great place to do it, just document it carefully.)
+
+```
+
+```{r}
+#| label: data-work-up
+
+# Here is a good time to make sure that your data type is defined properly and that if you have categorical data your levels are set properly. In this case, we're making sure that the treatments are factors and making them appear in a logical (not alphabetical) order.
+
+# define compost and water treatments as factors
+combined_df$CompTreat<-factor(combined_df$CompTreat,
+                               levels = c("Blank","S","C15","C30"))
+combined_df$WaterTreat<-factor(combined_df$WaterTreat,
+                            levels = c("Blank","D", "W05","W10","W15"))
+
+
+```
+
+###Visualization and Save Data
+
+```{r}
+#| label: Exploratory-visualization
+
+# probably you want to do some histograms or other such explorations
+
+```
+
+```{r}
+#| label: export-data
+
+# you may want to save your data at this point. Maybe you brought in L1 data and now it is L2? Here, we are saving the "df_L2" to the L2 folder in Dropbox. Make sure that your Dropbox folder has the appropriate folders created before running this code.
+
+write_csv(
+  dataframe_L2,
+  file = file.path(
+    DERT_Archives,
+    "Data",
+    "L2",
+    "MyAwesomeData_L2.csv"
+  )
+)
+
+```
+
+## Data Analysis
+
+### Regressions
+
+```{r}
+#| label: swc-regression
+
+# or whatever analyses are you doing...
+
+```
+
+### ANOVAs
+
+```{r}
+#| label: ANOVA-with-saved-outputs
+
+# This is some example code for an ANOVA. Note that the data are written as a text file to Dropbox after the analysis. Make sure that you have the appropriate folders created in Dropbox before running this code.
+
+# create a df of mean swc values for each jar
+swc_jar_means_df <- combined_df |>
+  filter(WaterTreat != "Blank") |>
+  filter(WaterTreat != "D") |>
+  filter(floor(Day) == Day) |> # remove non-integer values for day (duplicate measurements)
+  group_by(Jar, CompTreat, WaterTreat) |>
+  summarise(
+    N = sum(!is.na(SWC)),
+    mean_SWC = mean(SWC, na.rm=TRUE),
+    sd_SWC   = sd(SWC, na.rm=TRUE),
+    se_SWC   = sd_SWC / sqrt(N)
+               ) 
+
+#ANOVA test
+swc.anova <- aov(mean_SWC ~ CompTreat*WaterTreat, data = swc_jar_means_df)
+summary(swc.anova)
+# Water and compost and W*C are all significant
+
+#Post-hoc test
+TukeyHSD(swc.anova)
+#A few non-significant groups
+
+#Checking assumptions
+#Summary statistics
+model.tables(swc.anova, type="means", se = TRUE)
+
+#Checking for equal variance
+plot(swc.anova, 1)
+leveneTest(mean_SWC ~ CompTreat*WaterTreat, data = swc_jar_means_df)
+#Does have equal variance
+
+#Checking for normal distribution
+plot(swc.anova, 2)
+anova_residuals <- residuals(object = swc.anova)
+shapiro.test(x = anova_residuals)
+#Is normally distributed
+
+## Save results to a text file
+
+# Set output file
+out_file <- file.path(DERT_Archives, "YourFolderHere", "Results", "swc_anova_results.txt")
+
+# Write results to file
+sink(out_file)
+
+cat("=== ANOVA Summary ===\n")
+print(summary(swc.anova))
+
+cat("\n=== TukeyHSD Post-hoc ===\n")
+print(TukeyHSD(swc.anova))
+
+cat("\n=== Model Tables (means & SE) ===\n")
+print(model.tables(swc.anova, type = "means", se = TRUE))
+
+cat("\n=== Levene's Test for Homogeneity of Variance ===\n")
+print(leveneTest(mean_SWC ~ CompTreat * WaterTreat, data = swc_jar_means_df))
+
+cat("\n=== Shapiro-Wilk Test for Normality of Residuals ===\n")
+anova_residuals <- residuals(object = swc.anova)
+print(shapiro.test(x = anova_residuals))
+
+sink()  # close connection
+```
+
+## Figures
+
+```{r}
+#label: soil-water-content-bar-graph
+
+# Here's a random bar chart example. Note at the bottom that the figure is saved to Dropbox. Make sure that you have the appropriate folders created in Dropbox before running this code.
+
+plot2 <- Jar_CN_means_incub.only |>
+  ggplot(aes(x=CompTreat, y=Jar_mean_N, fill=WaterTreat)) + 
+  geom_boxplot() +
+  labs(x="Compost Treatment", 
+        y = "Soil Nitrogen (% by mass)") +
+  theme_bw() +
+  # Set colors, order, and labels for WaterTreat levels
+  scale_fill_manual(values = c("blue", "darkgray", "red"), 
+                     breaks = c("W15", "W10", "W05"),
+                     labels = c("large-infrequent", "intermediate", "small-frequent")) +  
+  labs(fill = NULL) + # remove legend title
+  scale_x_discrete(breaks = c("S", "C15", "C30"),
+      labels = c("No Compost", "Low Compost", "High Compost")) +
+  theme(legend.position = c(0.85, 0.3),  # Adjust legend position as needed
+        legend.justification = c(1, 1),
+        text = element_text(size = 18),  # Increase all font sizes
+        axis.text = element_text(size = 16),  # Increase axis text size
+        axis.title = element_text(size = 18),  # Increase axis title size
+        legend.text = element_text(size = 16),  # Increase legend text size
+       panel.grid = element_blank()) +  # Remove gridlines
+       geom_hline(yintercept=pctN.origsoil, linetype="dashed", 
+                color = "black", linewidth=1)
+plot2
+
+# Export plot
+ggsave(
+  filename = file.path(DERT_Archives, "YourFolderHere", 
+                       "Figures", "pctN_plot.jpg"),
+  plot = plot2,
+  width = 7, height = 5, dpi = 300
+)
 ```

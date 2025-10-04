@@ -1,13 +1,8 @@
 This folder contains the following R code files: 
 
-my_script1.qmd: 
-Written by Heather Throop, last updated 2018-04-12
-This code pulls together the csv files from ~55 different dataloggers, each of which was downloaded ~5 times. This takes the L0 (raw) data, combines into an L1 file, cleans redundant data 
-(e.g., multiple instances of the same time point in different files), removes logs before or after loggers were 
-deployed, and adds meta-data (site, microsite) for each logger. 
-Plots for RH and temperature for each logger are generated. 
-Note that Moab logger 2605760 seems to be missing logs at the start of the time period. I wasn't able to track down where they 
-get dropped. It is possible that there are similar issues with other loggers. 
+DERT_R_template.qmd: 
+Written by Heather Throop, last updated 2025-10-03
+This is some sample code written by Heather with some structure for reading data and writing output. This text should be a description of what your qmd file does. 
 Data are read from the DERT Dropbox ... details...
 Results are written to the DERT DRopbox ... details...
 
