@@ -30,11 +30,6 @@ library(tidyverse)
 ```
 
 ```{r}
-#| label: set-Dropbox-environment
-
-```
-
-```{r}
 #| label: read-in-data
 
 # This call uses the stored config file to define the path on your computer for the DERT Data & Metadata Dropbox folder
