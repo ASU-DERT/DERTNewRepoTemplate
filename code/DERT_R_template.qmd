@@ -32,7 +32,7 @@ library(tidyverse)
 ```{r}
 #| label: read-in-data
 
-# This call uses the stored config file to define the path on your computer for the DERT Data & Metadata Dropbox folder
+# This call uses the stored config file to define the path on your computer for the DERT Data & Metadata Dropbox folder. Find detailed instructions on this set-up in "Field and Lab SOPS/Data SOPs/DERT Data and Code Storage.docx"
 DERT_Archives <- config::get()
 
 # Read in the Amari soil and water content data (this uses an example from the DERT Dropbox - replace with your file)
