@@ -116,13 +116,17 @@ library(tidyverse)
 ```
 
 ```{r}
-#| label: read-in-data
+#| label: set-up-read-write-filepath
 
 # This call uses the stored config file to define the path on your computer for the DERT Data & Metadata Dropbox folder. Find detailed instructions on this set-up in "Field and Lab SOPS/Data SOPs/DERT Data and Code Storage.docx"
 DERT_Archives <- config::get()
+```
 
-# Read in the Amari soil and water content data (this uses an example from the DERT Dropbox - replace with your file)
-# Be sure to describe what data you are pulling in. L1 data?
+```{r}
+#| label: read-in-data
+
+# Read in your data files (this uses an example from the DERT Dropbox - replace with your file)
+# Be sure to describe what data you are pulling in. 
 swc <- read_csv(file.path(DERT_Archives, "Amari Compost Incubations", 
               "FinalData", "SWC_With_Compost_HT.csv"),
                 show_col_types = FALSE)
