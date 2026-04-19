@@ -141,9 +141,7 @@ fig_dir    <- file.path(DERT_Archives,
 
 # Read in your data files (this uses an example from the DERT Dropbox - replace with your file)
 # Be sure to describe what data you are pulling in. 
-swc <- read_csv(file.path(DERT_Archives, "Amari Compost Incubations", 
-              "FinalData", "SWC_With_Compost_HT.csv"),
-                show_col_types = FALSE)
+micro1_weather_df <- read_csv(file.path(data_dir,"microphase1_L2_weather_data.csv"))
 ```
 
 ### Data Cleaning and Work Up
