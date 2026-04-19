@@ -120,6 +120,20 @@ library(tidyverse)
 
 # This call uses the stored config file to define the path on your computer for the DERT Data & Metadata Dropbox folder. Find detailed instructions on this set-up in "Field and Lab SOPS/Data SOPs/DERT Data and Code Storage.docx"
 DERT_Archives <- config::get()
+
+# Base project paths - change to reflect the locations for your project
+data_dir   <- file.path(DERT_Archives,
+                        "NSF_IRES", "2022_Littermicroclimate",
+                        "HT_compiled", "data")
+
+stats_dir  <- file.path(DERT_Archives,
+                        "NSF_IRES", "2022_Littermicroclimate",
+                        "HT_compiled", "output", "stats")
+
+fig_dir    <- file.path(DERT_Archives,
+                        "NSF_IRES", "2022_Littermicroclimate",
+                        "HT_compiled", "output", "figures")
+
 ```
 
 ```{r}
